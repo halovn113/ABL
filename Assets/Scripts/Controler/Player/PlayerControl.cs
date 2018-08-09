@@ -92,7 +92,7 @@ public class PlayerControl : MonoBehaviour
             moveVector.x = 0;
         }
 
-        if (Input.GetKey(keys.GetKey("Dash")) && moveState == MoveState.Nope)
+        if (Input.GetKey(keys.GetKey("Dash")) && moveState == MoveState.Nope && gameObject.GetComponent<Player>().currentStamina > 0)
         {
             gameObject.GetComponent<Player>().UpdateStamina(-20);
             moveState = MoveState.Dashing;
@@ -153,10 +153,11 @@ public class PlayerControl : MonoBehaviour
 
     void DashCondition()
     {
-        if (_dashTime > 0.3f)
+        if (_dashTime > 0.2f)
         {
             _dashTime = 0;
             moveState = MoveState.AfterDash;
+
         }
         else
         {

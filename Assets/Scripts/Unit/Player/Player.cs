@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,6 +20,10 @@ public class Player : Unit
 
     public float maxStamina;
     public float maxVitality;
+
+    private Action _recoverStamina;
+
+    private bool _canRecoverStamina;
 
     void Start()
     {
@@ -62,32 +67,73 @@ public class Player : Unit
 
     public void UpdateStamina(float value)
     {
+        //Debug.Log("update stamina");
         if (value == 0) return;
 
-        this.StopInvokeRepeating(0);
+        this.StopInvoke(0);
+        _recoverStamina = null;
+
+        _canRecoverStamina = false;
+
         if (currentStamina + value >= maxStamina)
         {
             currentStamina = maxStamina;
             GameDirector.instance.UIDirector.uiPlayer.Stamina.UpdateBarFixed(currentStamina);
-            return;
         }
 
         if (currentStamina + value <= 0)
         {
             currentStamina = 0;
-            this.InvokeRepeating(RecoverStamina, 1, 0.2f);
             GameDirector.instance.UIDirector.uiPlayer.Stamina.UpdateBarFixed(currentStamina);
-            return;
+            //this.InvokeRepeating(RecoverStamina, 1.0f, 1 / 60);
+
         }
 
         currentStamina += value;
-        this.InvokeRepeating(RecoverStamina, 0.5f, 0.1f);
         GameDirector.instance.UIDirector.uiPlayer.Stamina.UpdateBarFixed(currentStamina);
+        this.Invoke(StartAutoRecoveStamina, 3.0f);
+        //this.InvokeRepeating(RecoverStamina, 2.0f, 1 / 60);
     }
 
     public void RecoverStamina()
     {
-        UpdateStamina(maxStamina - currentStamina);
-        Debug.Log("hello there");
+        UpdateStamina(stats.staminaRecoverPerSec);
+        //Debug.Log("hello there");
+    }
+
+
+    void Update()
+    {
+        if (_recoverStamina != null)
+        {
+            _recoverStamina();
+        }
+
+        //if (_canRecoverStamina)
+        //{
+        //    _RecoverStamina();
+        //}
+    }
+
+    void StartAutoRecoveStamina()
+    {
+        //Debug.Log("start recover stamina");
+        _recoverStamina = _RecoverStamina;
+        //_canRecoverStamina = true;
+    }
+
+    void _RecoverStamina()
+    {
+        if (currentStamina + stats.staminaRecoverPerSec <= maxStamina)
+        {
+            currentStamina += stats.staminaRecoverPerSec;
+            GameDirector.instance.UIDirector.uiPlayer.Stamina.UpdateBarFixed(currentStamina);
+        }
+        else
+        {
+            currentStamina = maxStamina;
+            //_canRecoverStamina = false;
+            _recoverStamina = null;
+        }
     }
 }
