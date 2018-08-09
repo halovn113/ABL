@@ -31,9 +31,9 @@ public class GameDirector : MonoBehaviour
         //aiTest.GetComponent<Actor>().MoveTo(player.transform.position, 2);
         DOTween.Init();
         UIDirector.UIInit();
-        player.HealthApply(-50);
+        player.HealthUpdate(-50);
         //enemyTest.FollowPlayer();
-        enemyTest.ChaseAndAttackPlayer();
+        //enemyTest.ChaseAndAttackPlayer();
     }
 
     // Update is called once per frame

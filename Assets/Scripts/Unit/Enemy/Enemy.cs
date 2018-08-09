@@ -90,7 +90,7 @@ public class Enemy : Unit
     {
         if (col.tag == "PlayerWeapon")
         {
-            HealthApply(-5);
+            HealthUpdate(-5);
         }
     }
 }

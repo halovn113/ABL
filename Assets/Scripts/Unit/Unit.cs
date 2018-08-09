@@ -4,40 +4,32 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    public float health;
+    public float currentHealth;
     public float maxHealth;
     public UnitType unitType;
     public UnitState unitState;
 
-    //public UnitType type;
-    //UnitState state;
-
-    //public UnitState GetState()
-    //{
-    //    return state;
-    //}
-
-    public virtual void HealthApply(float number)
+    public virtual void HealthUpdate(float number)
     {
         if (unitType == UnitType.UntouchNPC) return;
-        if (health + number <= 0)
+        if (currentHealth + number <= 0)
         {
             Dead();
             return;
         }
-        if (health + number > maxHealth)
+        if (currentHealth + number > maxHealth)
         {
-            health = maxHealth;
+            currentHealth = maxHealth;
             return;
         }
-        health += number;
+        currentHealth += number;
     }
 
     public virtual void Dead()
     {
-        health = 0;
+        currentHealth = 0;
         unitState = UnitState.Dead;
-        Debug.Log("Unit Dead");
+        //Debug.Log("Unit Dead");
     }
 
     public UnitState GetUnitState()

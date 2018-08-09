@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
-    enum Dash
+    enum MoveState
     {
         Nope,
         Dashing,
@@ -13,7 +13,7 @@ public class PlayerControl : MonoBehaviour
 
     }
 
-    Dash dashCon;
+    MoveState moveState;
     AttackState attackCon;
 
     public float maxSpeed;
@@ -45,7 +45,7 @@ public class PlayerControl : MonoBehaviour
         onUnitLook.SetTarget(mousePos);
         _dashTime = 0;
         _afterDash = 0;
-        dashCon = Dash.Nope;
+        moveState = MoveState.Nope;
         onAttack.Init();
         attackCon = onAttack.GetAttackState();
     }
@@ -92,9 +92,10 @@ public class PlayerControl : MonoBehaviour
             moveVector.x = 0;
         }
 
-        if (Input.GetKey(keys.GetKey("Dash")) && dashCon == Dash.Nope)
+        if (Input.GetKey(keys.GetKey("Dash")) && moveState == MoveState.Nope)
         {
-            dashCon = Dash.Dashing;
+            gameObject.GetComponent<Player>().UpdateStamina(-20);
+            moveState = MoveState.Dashing;
         }
 
         if (Input.GetKey(keys.GetKey("Attack1")) && onAttack.GetAttackState() == AttackState.Nope)
@@ -107,9 +108,9 @@ public class PlayerControl : MonoBehaviour
     {
         transform.position += moveVector.normalized * currentSpeed * Time.deltaTime;
 
-        switch (dashCon)
+        switch (moveState)
         {
-            case Dash.Dashing:
+            case MoveState.Dashing:
                 //if (moveVector.y != 0)
                 //{
                 //    transform.position += moveVector.normalized * currentSpeed * 2 * Time.deltaTime;
@@ -129,15 +130,15 @@ public class PlayerControl : MonoBehaviour
 
                 //}
 
-                transform.position += moveVector.normalized * currentSpeed * 3 * Time.deltaTime;
-
+                transform.position += moveVector.normalized * currentSpeed * 1.5f * Time.deltaTime;
+                DashCondition();
                 break;
 
-            case Dash.AfterDash:
+            case MoveState.AfterDash:
                 if (_afterDash > 0.5f)
                 {
                     _afterDash = 0;
-                    dashCon = Dash.Nope;
+                    moveState = MoveState.Nope;
 
                 }
                 else
@@ -147,7 +148,6 @@ public class PlayerControl : MonoBehaviour
                 break;
         }
 
-        DashCondition();
 
     }
 
@@ -156,7 +156,7 @@ public class PlayerControl : MonoBehaviour
         if (_dashTime > 0.3f)
         {
             _dashTime = 0;
-            dashCon = Dash.AfterDash;
+            moveState = MoveState.AfterDash;
         }
         else
         {

@@ -10,6 +10,7 @@ public class PlayerStats : MonoBehaviour
     public float staminaRecoverPerSec;
     public float vitalityLosePerSec;
 
+    public float healthPer;
 
     public float moveSpeed;
     public float maxSpeed;

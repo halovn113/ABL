@@ -18,7 +18,7 @@ public class UIDirector : MonoBehaviour
 
     public void UIInit()
     {
-        SetPlayerUI(GameDirector.instance.player.health, GameDirector.instance.player.GetStats().stamina, GameDirector.instance.player.GetStats().vitality);
+        SetPlayerUI(GameDirector.instance.player.currentHealth, GameDirector.instance.player.currentStamina, GameDirector.instance.player.currentVitality);
     }
 
     public void SetPlayerUI(float health, float stamina, float vitality)

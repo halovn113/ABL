@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : Unit
 {
     private PlayerControl _playerControl;
-    private PlayerStats _stats;
+    public PlayerStats stats;
 
 
     [HideInInspector]
@@ -15,8 +15,6 @@ public class Player : Unit
     [HideInInspector]
     public float currentStamina;
     [HideInInspector]
-    public float currentHealth;
-    [HideInInspector]
     public float currentVitality;
 
     public float maxStamina;
@@ -24,19 +22,72 @@ public class Player : Unit
 
     void Start()
     {
+        PlayerInit();
+    }
+
+    public void PlayerInit()
+    {
         _playerControl = gameObject.GetComponent<PlayerControl>();
-        _stats = gameObject.GetComponent<PlayerStats>();
+        stats = gameObject.GetComponent<PlayerStats>();
         _playerControl.Init();
+        StatPhysical(stats.physical);
+        currentHealth = maxHealth;
+        currentStamina = maxStamina;
+        currentVitality = maxVitality;
+        //this.InvokeRepeating(() => { Test1(); }, 2, 1);
+        //this.StopInvokeRepeating(10); 
     }
 
-    public PlayerStats GetStats()
+    public override void HealthUpdate(float number)
     {
-        return _stats;
+        base.HealthUpdate(number);
+        GameDirector.instance.UIDirector.uiPlayer.Health.UpdateBarFixed(currentHealth);
     }
 
-    public override void HealthApply(float number)
+    public void StatPhysical(int value)
     {
-        base.HealthApply(number);
-        GameDirector.instance.UIDirector.uiPlayer.Health.UpdateBarFixed(health);
+        if (value <= 0) return;
+        stats.physical = value;
+        maxHealth = stats.physical * stats.healthPer;
+        maxVitality = stats.physical * stats.healthPer / 4;
+        maxStamina = stats.physical * stats.healthPer / 4;
+    }
+
+    public void StatStrength(int value)
+    {
+        if (value <= 0) return;
+        stats.strength = value;
+
+    }
+
+    public void UpdateStamina(float value)
+    {
+        if (value == 0) return;
+
+        this.StopInvokeRepeating(0);
+        if (currentStamina + value >= maxStamina)
+        {
+            currentStamina = maxStamina;
+            GameDirector.instance.UIDirector.uiPlayer.Stamina.UpdateBarFixed(currentStamina);
+            return;
+        }
+
+        if (currentStamina + value <= 0)
+        {
+            currentStamina = 0;
+            this.InvokeRepeating(RecoverStamina, 1, 0.2f);
+            GameDirector.instance.UIDirector.uiPlayer.Stamina.UpdateBarFixed(currentStamina);
+            return;
+        }
+
+        currentStamina += value;
+        this.InvokeRepeating(RecoverStamina, 0.5f, 0.1f);
+        GameDirector.instance.UIDirector.uiPlayer.Stamina.UpdateBarFixed(currentStamina);
+    }
+
+    public void RecoverStamina()
+    {
+        UpdateStamina(maxStamina - currentStamina);
+        Debug.Log("hello there");
     }
 }
