@@ -561,6 +561,7 @@ MonoBehaviour:
   Doors: 0
   Width: 8
   Height: 4
+  Limited: 0
   roomObject1x1:
   - {fileID: 1145613964727154, guid: e210947d4354e4248ad97dadcaa76fb4, type: 2}
   roomObject1x2: []
@@ -571,7 +572,8 @@ MonoBehaviour:
     y: 0
     data: 0
   count: 4
-  option: 1
+  option: 19
+  hasEndPoint: 0
 --- !u!1 &495810696
 GameObject:
   m_ObjectHideFlags: 0
@@ -1396,7 +1398,7 @@ Prefab:
     - target: {fileID: 114322829696507010, guid: 24d116476c7c54647acc0f2afbe5dadd,
         type: 2}
       propertyPath: healthPer
-      value: 1
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 50692807079679016, guid: 24d116476c7c54647acc0f2afbe5dadd,
         type: 2}

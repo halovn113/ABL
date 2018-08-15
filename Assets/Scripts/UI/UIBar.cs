@@ -10,18 +10,18 @@ public class UIBar : MonoBehaviour
 
     private Vector2 sizeVector;
     private Action action;
-    private bool _updateDone;
+    private bool _isUpdating;
 
     public void UIBarInit()
     {
         sizeVector = gameObject.GetComponent<RectTransform>().sizeDelta;
-        _updateDone = false;
+        _isUpdating = false;
     }
 
     public void UpdateBar(float value)
     {
         if (sizeVector.x == value * pixPerValue) return;
-        _updateDone = false;
+        _isUpdating = false;
         sizeVector.x = value * pixPerValue;
         gameObject.GetComponent<RectTransform>().sizeDelta = sizeVector;
     }
@@ -29,7 +29,7 @@ public class UIBar : MonoBehaviour
     public void UpdateBarFixed(float value)
     {
         if (sizeVector.x == value * pixPerValue) return;
-        _updateDone = false;
+        _isUpdating = false;
         if (sizeVector.x > (value * pixPerValue))
         {
             action = () =>
@@ -49,7 +49,7 @@ public class UIBar : MonoBehaviour
 
     void UpdateBarIncrease(float value)
     {
-        if ((int)sizeVector.x < (int)(value * pixPerValue) && !_updateDone)
+        if ((int)sizeVector.x < (int)(value * pixPerValue) && !_isUpdating)
         {
             sizeVector.x += pixPerTime;
             gameObject.GetComponent<RectTransform>().sizeDelta = sizeVector;
@@ -59,13 +59,13 @@ public class UIBar : MonoBehaviour
             sizeVector.x = value * pixPerValue;
             gameObject.GetComponent<RectTransform>().sizeDelta = sizeVector;
             action = null;
-            _updateDone = true;
+            _isUpdating = true;
         }
     }
 
     void UpdateBarDecrease(float value)
     {
-        if ((int)sizeVector.x > (int)(value * pixPerValue) && !_updateDone)
+        if ((int)sizeVector.x > (int)(value * pixPerValue) && !_isUpdating)
         {
             sizeVector.x -= pixPerTime;
             gameObject.GetComponent<RectTransform>().sizeDelta = sizeVector;
@@ -75,7 +75,7 @@ public class UIBar : MonoBehaviour
             sizeVector.x = value * pixPerValue;
             gameObject.GetComponent<RectTransform>().sizeDelta = sizeVector;
             action = null;
-            _updateDone = true;
+            _isUpdating = true;
         }
     }
 
@@ -89,11 +89,11 @@ public class UIBar : MonoBehaviour
 
     public bool IsUpdateDone()
     {
-        return _updateDone;
+        return _isUpdating;
     }
 
     public void StopUpdate()
     {
-        _updateDone = true;
+        _isUpdating = true;
     }
 }
