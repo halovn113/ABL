@@ -52,7 +52,7 @@ public class Player : Unit
         currentStamina = maxStamina;
         currentVitality = maxVitality;
         _staminaState = StaminaRecoverState.None;
-        Debug.Log("cur sta " + currentStamina);
+        //Debug.Log("cur sta " + currentStamina);
         //this.InvokeRepeating(() => { Test1(); }, 2, 1);
         //this.StopInvokeRepeating(10); 
     }

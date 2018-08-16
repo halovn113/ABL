@@ -34,6 +34,8 @@ public class GameDirector : MonoBehaviour
         player.HealthUpdate(-50);
         //enemyTest.FollowPlayer();
         //enemyTest.ChaseAndAttackPlayer();
+        MapGenerator.instance.CreateMap();
+        MapGenerator.instance.SpawnPlayer(player);
     }
 
     // Update is called once per frame
