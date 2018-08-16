@@ -172,8 +172,9 @@ public class OnAttack : MonoBehaviour
                 screenPoint = Camera.main.WorldToScreenPoint(transform.position);
                 direction = (Input.mousePosition - screenPoint).normalized;
                 //GameObject bullet = objPooler.SpawnFromPool("test", weapon.transform.position, Quaternion.identity); // test
-                //bullet.transform.rotation = Quaternion.LookRotation(Vector3.forward, weapon.transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition));
-                //bullet.GetComponent<Bullet>().Shoot(direction);
+                GameObject bullet = Instantiate(GameDirector.instance.player.bullet, weapon.transform.position, Quaternion.identity);
+                bullet.transform.rotation = Quaternion.LookRotation(Vector3.forward, weapon.transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                bullet.GetComponent<Bullet>().Shoot(direction);
                 break;
 
             case AttackType.Cast:

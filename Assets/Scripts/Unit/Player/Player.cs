@@ -8,6 +8,7 @@ public class Player : Unit
     private PlayerControl _playerControl;
     public PlayerStats stats;
 
+    public GameObject bullet;
 
     [HideInInspector]
     public float normalMoveSpeed;
@@ -17,6 +18,7 @@ public class Player : Unit
     public float currentStamina;
     [HideInInspector]
     public float currentVitality;
+
 
     public float maxStamina;
     public float maxVitality;
