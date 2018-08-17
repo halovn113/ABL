@@ -182,15 +182,15 @@ public class GeneratorArrayMap : MonoBehaviour
 
         #region
         // Action work
-        Action LeftToPoint = () => { arrayData = PointToPoint(focus, arrayData[UnityEngine.Random.Range(0, Height), focus.x - 1 <= 0 ? 0 : UnityEngine.Random.Range(0, focus.x - 1)], arrayData, 1); }; // left
-        Action RightToPoint = () => { arrayData = PointToPoint(focus, arrayData[UnityEngine.Random.Range(0, Height), focus.x + 1 >= Width - 1 ? Width - 1 : UnityEngine.Random.Range(focus.x + 1, Width)],  arrayData, 1); }; // right
-        Action UpToPoint = () => { arrayData = PointToPoint(focus, arrayData[focus.y - 1 <= 0 ? 0 : UnityEngine.Random.Range(0, focus.y - 1), UnityEngine.Random.Range(0, Width)], arrayData, 1); }; // up
-        Action DownToPoint = () => { arrayData = PointToPoint(focus, arrayData[focus.y + 1 >= Height - 1 ? Height - 1 : UnityEngine.Random.Range(focus.y + 1, Height), UnityEngine.Random.Range(0, Width)], arrayData, 1); }; // down
+        //Action LeftToPoint = () => { arrayData = PointToPoint(focus, arrayData[UnityEngine.Random.Range(0, Height), focus.x - 1 <= 0 ? 0 : UnityEngine.Random.Range(0, focus.x - 1)], arrayData, 1); }; // left
+        //Action RightToPoint = () => { arrayData = PointToPoint(focus, arrayData[UnityEngine.Random.Range(0, Height), focus.x + 1 >= Width - 1 ? Width - 1 : UnityEngine.Random.Range(focus.x + 1, Width)],  arrayData, 1); }; // right
+        //Action UpToPoint = () => { arrayData = PointToPoint(focus, arrayData[focus.y - 1 <= 0 ? 0 : UnityEngine.Random.Range(0, focus.y - 1), UnityEngine.Random.Range(0, Width)], arrayData, 1); }; // up
+        //Action DownToPoint = () => { arrayData = PointToPoint(focus, arrayData[focus.y + 1 >= Height - 1 ? Height - 1 : UnityEngine.Random.Range(focus.y + 1, Height), UnityEngine.Random.Range(0, Width)], arrayData, 1); }; // down
 
-        //Action LeftToPoint = () => { arrayData = PointToPoint(focus, arrayData[UnityEngine.Random.Range(0, Height), focus.x - 1 <= 0 ? 0 : UnityEngine.Random.Range(0, focus.x - 1)], arrayData); }; // left
-        //Action RightToPoint = () => { arrayData = PointToPoint(focus, arrayData[UnityEngine.Random.Range(0, Height), focus.x + 1 >= Width - 1 ? Width - 1 : UnityEngine.Random.Range(focus.x + 1, Width)], arrayData); }; // right
-        //Action UpToPoint = () => { arrayData = PointToPoint(focus, arrayData[focus.y - 1 <= 0 ? 0 : UnityEngine.Random.Range(0, focus.y - 1), UnityEngine.Random.Range(0, Width)], arrayData); }; // up
-        //Action DownToPoint = () => { arrayData = PointToPoint(focus, arrayData[focus.y + 1 >= Height - 1 ? Height - 1 : UnityEngine.Random.Range(focus.y + 1, Height), UnityEngine.Random.Range(0, Width)], arrayData); }; // down
+        Action LeftToPoint = () => { arrayData = PointToPoint(focus, arrayData[UnityEngine.Random.Range(0, Height), focus.x - 1 <= 0 ? 0 : UnityEngine.Random.Range(0, focus.x - 1)], arrayData); }; // left
+        Action RightToPoint = () => { arrayData = PointToPoint(focus, arrayData[UnityEngine.Random.Range(0, Height), focus.x + 1 >= Width - 1 ? Width - 1 : UnityEngine.Random.Range(focus.x + 1, Width)], arrayData); }; // right
+        Action UpToPoint = () => { arrayData = PointToPoint(focus, arrayData[focus.y - 1 <= 0 ? 0 : UnityEngine.Random.Range(0, focus.y - 1), UnityEngine.Random.Range(0, Width)], arrayData); }; // up
+        Action DownToPoint = () => { arrayData = PointToPoint(focus, arrayData[focus.y + 1 >= Height - 1 ? Height - 1 : UnityEngine.Random.Range(focus.y + 1, Height), UnityEngine.Random.Range(0, Width)], arrayData); }; // down
 
         Action FocusToPoint = () => { };
         //if (hasEndPoint)
@@ -317,8 +317,8 @@ public class GeneratorArrayMap : MonoBehaviour
                     }
                     else
                     {
-                        PointToPoint(focus, temp, arrayData, 1);
-                        //PointToPoint(focus, temp, arrayData);
+                        //PointToPoint(focus, temp, arrayData, 1);
+                        PointToPoint(focus, temp, arrayData);
                     }
                     listPoint.Add(temp);
                     index++;
@@ -329,6 +329,17 @@ public class GeneratorArrayMap : MonoBehaviour
                 FocusToPoint();
             }
         }
+
+        string sb = "";
+        for (int i = 0; i < arrayData.GetLength(0); i++)
+        {
+            for (int j = 0; j < arrayData.GetLength(1); j++)
+            {
+                sb += "  " + arrayData[i, j].data;
+            }
+            sb += "\n";
+        }
+        Debug.Log(sb);
     }
 
     bool CheckIfPointIntList(RawData point, List<RawData> list)
@@ -345,7 +356,7 @@ public class GeneratorArrayMap : MonoBehaviour
     }
 
     //[System.Runtime.InteropServices.Optional] 
-    RawData[,] PointToPoint(RawData start, RawData end, RawData[,] data, int valueForDoor, [System.Runtime.InteropServices.Optional] Nullable<bool> isHorizontal)
+    RawData[,] PointToPoint(RawData start, RawData end, RawData[,] data, [System.Runtime.InteropServices.Optional]  int valueForDoor, [System.Runtime.InteropServices.Optional] Nullable<bool> isHorizontal)
     {
         Debug.Log("start  x " + start.x + " , y " + start.y + ", end x" + end.x + ", y"+ end.y + " " + valueForDoor);
         if (data == null || data.Length == 0)
@@ -375,11 +386,13 @@ public class GeneratorArrayMap : MonoBehaviour
                         currentNumberRooms++;
                     }
                 }
-                d[i, j].data = 1;
+                if (d[i, j].data == 0)
+                {
+                    d[i, j].data = 1;
+                }
                 j += goIn;
             }
-            //d[i, j].data = valueForDoor == 0 ? 1 : valueForDoor;
-            d[i, j].data = valueForDoor;
+            //d[i, j].data = valueForDoor;
         };
 
         Action verAc = () =>
@@ -398,11 +411,13 @@ public class GeneratorArrayMap : MonoBehaviour
                         currentNumberRooms++;
                     }
                 }
-                d[i, j].data = 1;
+                if (d[i, j].data == 0)
+                {
+                    d[i, j].data = 1;
+                }
                 i += goIn;           
             }
-            //d[i, j].data = valueForDoor == 0? 1 : valueForDoor;
-            d[i, j].data = valueForDoor;
+            //d[i, j].data = valueForDoor;
         };
         if (horizontal)
         {
@@ -416,6 +431,8 @@ public class GeneratorArrayMap : MonoBehaviour
             hoAc();
             //Debug.Log("vertical");
         }
+        d[i, j].data = valueForDoor == 0 ? 1 : valueForDoor;
+        Debug.Log(i + ", " + j + " : " + d[i, j].data);
         return d;
     }
 

@@ -114,8 +114,6 @@ public class MapGenerator : MonoBehaviour
                     pos.y = startVec.y - (h * i);
                     tempRoom.transform.position = pos;
                     tempRoom.transform.parent = parent.transform;
-                    //Debug.Log(i + " " + j);
-                    //Debug.Log(tempRoom.transform.position);
                     tempRoom.name = "Area_" + i + "_" + j + "_Type_" + _generate.arrayData[i, j].data;
                 }
 
