@@ -58,10 +58,15 @@ public class PlayerControl : MonoBehaviour
     void LateUpdate()
     {
         Control();
-        Move();
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         onUnitLook.RotationUpdate(mousePos);
         RotationControl();
+    }
+
+    void FixedUpdate()
+    {
+        Move();
+
     }
 
     void Control()
@@ -106,8 +111,11 @@ public class PlayerControl : MonoBehaviour
 
     void Move()
     {
-        transform.position += moveVector.normalized * currentSpeed * Time.deltaTime;
-
+        //transform.position += moveVector.normalized * currentSpeed * Time.deltaTime;
+        //transform.Translate(moveVector.normalized * currentSpeed * Time.deltaTime);
+         //transform.GetComponent<Rigidbody2D>().transform.position += moveVector.normalized * currentSpeed * Time.deltaTime;
+        //transform.GetComponent<Rigidbody2D>().position += moveVector.normalized * currentSpeed * Time.deltaTime;
+        transform.GetComponent<Rigidbody2D>().velocity = moveVector.normalized * currentSpeed; 
         switch (moveState)
         {
             case MoveState.Dashing:
