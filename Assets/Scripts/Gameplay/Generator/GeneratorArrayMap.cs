@@ -330,16 +330,16 @@ public class GeneratorArrayMap : MonoBehaviour
             }
         }
 
-        string sb = "";
-        for (int i = 0; i < arrayData.GetLength(0); i++)
-        {
-            for (int j = 0; j < arrayData.GetLength(1); j++)
-            {
-                sb += "  " + arrayData[i, j].data;
-            }
-            sb += "\n";
-        }
-        Debug.Log(sb);
+        //string sb = "";
+        //for (int i = 0; i < arrayData.GetLength(0); i++)
+        //{
+        //    for (int j = 0; j < arrayData.GetLength(1); j++)
+        //    {
+        //        sb += "  " + arrayData[i, j].data;
+        //    }
+        //    sb += "\n";
+        //}
+        //Debug.Log(sb);
     }
 
     bool CheckIfPointIntList(RawData point, List<RawData> list)
@@ -358,7 +358,7 @@ public class GeneratorArrayMap : MonoBehaviour
     //[System.Runtime.InteropServices.Optional] 
     RawData[,] PointToPoint(RawData start, RawData end, RawData[,] data, [System.Runtime.InteropServices.Optional]  int valueForDoor, [System.Runtime.InteropServices.Optional] Nullable<bool> isHorizontal)
     {
-        Debug.Log("start  x " + start.x + " , y " + start.y + ", end x" + end.x + ", y"+ end.y + " " + valueForDoor);
+        //Debug.Log("start  x " + start.x + " , y " + start.y + ", end x" + end.x + ", y"+ end.y + " " + valueForDoor);
         if (data == null || data.Length == 0)
         {
             Debug.LogWarning("Warning, data is null or doesn't have any thing in there");
@@ -432,7 +432,6 @@ public class GeneratorArrayMap : MonoBehaviour
             //Debug.Log("vertical");
         }
         d[i, j].data = valueForDoor == 0 ? 1 : valueForDoor;
-        Debug.Log(i + ", " + j + " : " + d[i, j].data);
         return d;
     }
 

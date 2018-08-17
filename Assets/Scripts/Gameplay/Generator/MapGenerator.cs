@@ -87,6 +87,8 @@ public class MapGenerator : MonoBehaviour
             return;
         }
 
+        Debug.Log(w + " " + h);
+        Debug.Log(Camera.main.pixelWidth + " " + Camera.main.pixelHeight);
         startVec.x = 0 - ((_generate.Width / 2) * w);
         startVec.y = 0 + ((_generate.Height / 2) * h);
         GameObject tempRoom;
@@ -95,7 +97,6 @@ public class MapGenerator : MonoBehaviour
         {
             for (int j = 0; j < _generate.Width; j++)
             {
-                Debug.Log(_generate.arrayData[i, j].data);
                 if (_generate.arrayData[i, j].data != 0)
                 {
                     if (_generate.arrayData[i, j].data == 1)
@@ -139,7 +140,7 @@ public class MapGenerator : MonoBehaviour
 
     GameObject SpawnSpecialRoomByIndex(int id, GameObject room)
     {
-        Debug.Log("id " + id);
+        //Debug.Log("id " + id);
         switch (id)
         {
             case 2:

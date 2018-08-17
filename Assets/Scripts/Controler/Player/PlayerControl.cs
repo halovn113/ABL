@@ -112,9 +112,6 @@ public class PlayerControl : MonoBehaviour
     void Move()
     {
         //transform.position += moveVector.normalized * currentSpeed * Time.deltaTime;
-        //transform.Translate(moveVector.normalized * currentSpeed * Time.deltaTime);
-         //transform.GetComponent<Rigidbody2D>().transform.position += moveVector.normalized * currentSpeed * Time.deltaTime;
-        //transform.GetComponent<Rigidbody2D>().position += moveVector.normalized * currentSpeed * Time.deltaTime;
         transform.GetComponent<Rigidbody2D>().velocity = moveVector.normalized * currentSpeed; 
         switch (moveState)
         {
@@ -138,7 +135,8 @@ public class PlayerControl : MonoBehaviour
 
                 //}
 
-                transform.position += moveVector.normalized * currentSpeed * 1.5f * Time.deltaTime;
+                //transform.position += moveVector.normalized * currentSpeed * 1.5f * Time.deltaTime;
+                transform.GetComponent<Rigidbody2D>().velocity = moveVector.normalized * 1.5f * currentSpeed;
                 DashCondition();
                 break;
 
