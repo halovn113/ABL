@@ -1,9 +1,8 @@
-﻿using Cinemachine;
-using DG.Tweening;
+﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Tilemaps;
 
 public class GameDirector : MonoBehaviour
 {
@@ -17,7 +16,9 @@ public class GameDirector : MonoBehaviour
     public AI aiTest;
     public static GameDirector instance;
 
-    public Camera camera;
+    public GameObject[,] listRoom;
+    public Room currentRoom;
+    public GameCamera cam;
 
     void Awake()
     {
@@ -34,7 +35,6 @@ public class GameDirector : MonoBehaviour
     {
         //aiTest.GetComponent<Actor>().MoveToTime(player.transform.position, 2);
         //aiTest.GetComponent<Actor>().MoveTo(player.transform.position, 2);
-        camera = Camera.main;
         DOTween.Init();
         UIDirector.UIInit();
         player.HealthUpdate(-50);
@@ -42,10 +42,14 @@ public class GameDirector : MonoBehaviour
         //enemyTest.ChaseAndAttackPlayer();
         MapGenerator.instance.CreateMap();
         MapGenerator.instance.SpawnPlayer(player);
-        //CinematicCam.GetComponent<>()
-        CinematicCam.GetComponent<CinemachineVirtualCamera>().Follow = player.transform;
-        UpdateCamera(MapGenerator.instance.playerSpawnRoom);
-        //UpdateCamera(player.gameObject);
+        //CinematicCam.GetComponent<CinemachineVirtualCamera>().Follow = player.transform;
+
+        listRoom = MapGenerator.instance.listRoom;
+        UpdateRenderRooms(MapGenerator.instance.currentRoomPoint.x, MapGenerator.instance.currentRoomPoint.y, true);
+        //UpdateCamera(MapGenerator.instance.playerSpawnRoom);
+        //UpdateRenderRoomAround(MapGenerator.instance.currentRoomPoint.x, MapGenerator.instance.currentRoomPoint.y, true);
+        cam.Init();
+        cam.UpdateArea(MapGenerator.instance.playerSpawnRoom.GetComponent<BoxCollider2D>());
     }
 
 
@@ -63,7 +67,7 @@ public class GameDirector : MonoBehaviour
 
     public void UpdateCamera(GameObject area)
     {
-        CinematicCam.GetComponent<CinemachineConfiner>().m_BoundingShape2D = area.GetComponent<CompositeCollider2D>();
+        Debug.Log(area.GetComponent<BoxCollider2D>().size.x * 64 + "  " + area.GetComponent<BoxCollider2D>().size.y);
     }
 
     void CheckPlayerCondition()
@@ -77,5 +81,23 @@ public class GameDirector : MonoBehaviour
     void ControlAI()
     {
 
+    }
+    public void UpdateRenderRooms(int x, int y, bool setActive)
+    {
+        listRoom[x, y].SetActive(setActive);
+    }
+
+    public void UpdateRenderRoomAround(int x, int y, bool setActive)
+    {
+        for (int i = x - 1; i < x + 2; i++)
+        {
+            for (int j = y - 1; j < y + 2; j++)
+            {
+                if (i < 0 || y < 0 || i > listRoom.GetLength(0) - 1 || j > listRoom.GetLength(1) - 1) continue;
+                if (listRoom[i, j] == null) continue;
+                listRoom[i, j].SetActive(setActive);
+                Debug.Log(listRoom[i,j].GetComponent<BoxCollider2D>().bounds.size.x);
+            }
+        }
     }
 }

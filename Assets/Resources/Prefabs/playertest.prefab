@@ -63,9 +63,10 @@ GameObject:
   - component: {fileID: 114322829696507010}
   - component: {fileID: 61884421148106912}
   - component: {fileID: 50692807079679016}
+  - component: {fileID: 114929634558890354}
   m_Layer: 0
   m_Name: playertest
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,8 +77,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1784650540721886}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.78, y: 1.1, z: -0.21675879}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 57.5, y: -15, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_Children:
   - {fileID: 4692626885901446}
@@ -147,10 +148,10 @@ Rigidbody2D:
   m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!61 &61333263424059136
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -324,16 +325,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 308be1bd646579b4f997f26da7692bc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 200
+  currentHealth: 0
   maxHealth: 200
   unitType: 0
   unitState: 0
+  unitFacing: 0
+  stats: {fileID: 0}
+  bullet: {fileID: 0}
   normalMoveSpeed: 0
   currentMoveSpeed: 0
   currentStamina: 0
-  currentHealth: 0
   currentVitality: 0
-  maxStamina: 0
+  spriteStates:
+  - {fileID: 21300008, guid: 0b972f59bc219d3458f1d72d7324e0a2, type: 3}
+  - {fileID: 21300010, guid: 0b972f59bc219d3458f1d72d7324e0a2, type: 3}
+  - {fileID: 21300012, guid: 0b972f59bc219d3458f1d72d7324e0a2, type: 3}
+  - {fileID: 21300014, guid: 0b972f59bc219d3458f1d72d7324e0a2, type: 3}
+  maxStamina: 50
   maxVitality: 0
 --- !u!114 &114322829696507010
 MonoBehaviour:
@@ -346,18 +354,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb43957b6841714796adeb55894af6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stamina: 150
-  vitality: 150
-  staminaRecoverPerSec: 0
+  staminaRecoverPerSec: 2
   vitalityLosePerSec: 0
+  healthPer: 20
   moveSpeed: 5
   maxSpeed: 5
-  physical: 0
-  strength: 0
+  physical: 5
+  strength: 5
   agility: 0
   knowledge: 0
   morale: 0
-  endurable: 0
+  endurable: 5
 --- !u!114 &114788571036817934
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -371,7 +378,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackTrigger: {fileID: 61333263424059136}
   weapon: {fileID: 1039946510645888}
-  attackType: 0
+  attackType: 2
   timeAttack: 0.5
   nextAttack: 0.5
 --- !u!114 &114855147230098612
@@ -401,6 +408,17 @@ MonoBehaviour:
   maxSpeed: 0
   keys: {fileID: 114027720480650094}
   onAttack: {fileID: 114788571036817934}
+--- !u!114 &114929634558890354
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1784650540721886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 202d1aa9e78da4a4cb674423bfe54157, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212363776347416792
 SpriteRenderer:
   m_ObjectHideFlags: 1

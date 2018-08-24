@@ -19,9 +19,15 @@ public class Player : Unit
     [HideInInspector]
     public float currentVitality;
 
+    // sprite của từng state: 0: up, 1: down, 2: left, 3: down
+    public Sprite[] spriteStates;
+    public AttackType attackType;
+
 
     public float maxStamina;
     public float maxVitality;
+
+    public Player instance;
 
     public enum StaminaRecoverState
     {
@@ -44,6 +50,12 @@ public class Player : Unit
 
     public void PlayerInit()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(instance);
+        }
+        instance = this;
+
         _playerControl = gameObject.GetComponent<PlayerControl>();
         stats = gameObject.GetComponent<PlayerStats>();
         _playerControl.Init();
@@ -179,6 +191,12 @@ public class Player : Unit
         }
     }
 
+    void FixedUpdate()
+    {
+        ChangeSpriteFacing();
+    }
+
+
     void StartAutoRecoveStamina()
     {
         //_canRecoverStamina = true;
@@ -201,6 +219,34 @@ public class Player : Unit
             //_canRecoverStamina = false;
             //_recoverStamina = null;
         }
-
     }
+
+    public void Attack()
+    {
+        switch (unitFacing)
+        {
+            case Facing.Up:
+                break;
+            case Facing.Down:
+                break;
+            case Facing.Left:
+                break;
+            case Facing.Right:
+                break;
+        }
+    }
+
+    public void ChangeSpriteFacing()
+    {
+        gameObject.GetComponent<SpriteRenderer>().sprite = spriteStates[(int)unitFacing];
+    }
+
+}
+
+public enum AttackType
+{
+    Slash,
+    Thrust,
+    Shoot,
+    Cast,
 }

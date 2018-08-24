@@ -3,13 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // enum tạm sẽ update trong ScriptableObject của EnumGenerator
-public enum AttackType
-{
-    Slash,
-    Thrust,
-    Shoot,
-    Cast,
-}
 
 public enum AttackState
 {
@@ -26,7 +19,6 @@ public class OnAttack : MonoBehaviour
     public GameObject weapon; // test melee trước
     private AttackState attackState;
     
-    public AttackType attackType;
     public float timeAttack = 0.5f; // 0.5 chỉ để test
     public float nextAttack = 0.5f; // 0.5 để test
 
@@ -91,7 +83,7 @@ public class OnAttack : MonoBehaviour
 
     public void AttackWork()
     {
-        switch (attackType)
+        switch (GameDirector.instance.player.attackType)
         {
             case AttackType.Slash:
                 //weapon.transform.position = aimingPos;
@@ -161,7 +153,7 @@ public class OnAttack : MonoBehaviour
 
     public void SetAttack()
     {
-        switch (attackType)
+        switch (GameDirector.instance.player.attackType)
         {
             case AttackType.Slash:
                 weapon.SetActive(true);

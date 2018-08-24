@@ -10,7 +10,6 @@ public class PlayerControl : MonoBehaviour
         Nope,
         Dashing,
         AfterDash,
-
     }
 
     MoveState moveState;
@@ -33,6 +32,9 @@ public class PlayerControl : MonoBehaviour
 
     private float normalSpeed;
     private float currentSpeed;
+    private Vector3 _screenPoint;
+    private Vector3 _direction;
+    private float _angle;
 
     public void Init()
     {
@@ -59,7 +61,10 @@ public class PlayerControl : MonoBehaviour
     {
         Control();
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        onUnitLook.RotationUpdate(mousePos);
+        if (gameObject.GetComponent<Player>().attackType == AttackType.Shoot)
+        {
+            onUnitLook.RotationUpdate(mousePos);
+        }
         RotationControl();
     }
 
@@ -111,32 +116,11 @@ public class PlayerControl : MonoBehaviour
 
     void Move()
     {
-        //transform.position += moveVector.normalized * currentSpeed * Time.deltaTime;
         transform.GetComponent<Rigidbody2D>().velocity = moveVector.normalized * currentSpeed; 
         switch (moveState)
         {
-            case MoveState.Dashing:
-                //if (moveVector.y != 0)
-                //{
-                //    transform.position += moveVector.normalized * currentSpeed * 2 * Time.deltaTime;
-                //}
-                //else
-                //{
-                //    //if (condition_facingRight)
-                //    //{
-                //    //    transform.position += new Vector3(1, 0, 0) * currentSpeed * 3 * Time.deltaTime;
-                //    //}
-                //    //else
-                //    //{
-                //    //    transform.position += new Vector3(-1, 0, 0) * currentSpeed * 3 * Time.deltaTime;
-                //    //}
-
-                //    transform.position += new Vector3(1, 0, 0) * currentSpeed * 3 * Time.deltaTime;
-
-                //}
-
-                //transform.position += moveVector.normalized * currentSpeed * 1.5f * Time.deltaTime;
-                transform.GetComponent<Rigidbody2D>().velocity = moveVector.normalized * 1.5f * currentSpeed;
+            case MoveState.Dashing:             
+                transform.GetComponent<Rigidbody2D>().velocity = moveVector.normalized * 2.5f * currentSpeed;
                 DashCondition();
                 break;
 
@@ -153,8 +137,6 @@ public class PlayerControl : MonoBehaviour
                 }
                 break;
         }
-
-
     }
 
     void DashCondition()
@@ -173,20 +155,27 @@ public class PlayerControl : MonoBehaviour
 
     void RotationControl()
     {
-        if (transform.localScale.x > 0) // nhìn về bên phải 
+        _screenPoint = Camera.main.WorldToScreenPoint(transform.position);
+        _direction = (Input.mousePosition - _screenPoint).normalized;
+        _angle = Utility.Angle360(Vector3.right, _direction);
+
+        if (_angle >= 45 && _angle <= 135)
         {
-            if (mousePos.x > transform.position.x)
-            {
-                _facingRight = true;
-            }
+            gameObject.GetComponent<Player>().unitFacing = Facing.Up;
         }
-        else
+        else if (_angle > 135 && _angle < 225)
         {
-            if (mousePos.x < transform.position.x)
-            {
-                _facingRight = false;
-            }
+            gameObject.GetComponent<Player>().unitFacing = Facing.Left;
         }
+        else if (_angle >= 225 && _angle <= 315)
+        {
+            gameObject.GetComponent<Player>().unitFacing = Facing.Down;
+        }
+        else if (_angle > 315 || _angle < 45)
+        {
+            gameObject.GetComponent<Player>().unitFacing = Facing.Right;
+        }
+
     }
 
 }

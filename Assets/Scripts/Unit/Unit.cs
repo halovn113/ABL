@@ -8,6 +8,7 @@ public class Unit : MonoBehaviour
     public float maxHealth;
     public UnitType unitType;
     public UnitState unitState;
+    public Facing unitFacing;
 
     public virtual void HealthUpdate(float number)
     {
@@ -53,4 +54,13 @@ public enum UnitState
     Dead,
     Stun,
     Idle,
+}
+
+public enum Facing
+{
+    Up = 0,
+    Down = 1,
+    Left = 2,
+    Right = 3,
+
 }
