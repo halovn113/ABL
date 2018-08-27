@@ -36,6 +36,7 @@ public class OnAttack : MonoBehaviour
         //attackTrigger = GetComponent<Collider2D>();
         attackTimer = 0;
         afterATimer = 0;
+        Player.instance.weapon.SetActive(false);
         weapon.SetActive(false);
         attackTrigger.enabled = false;
         aimingPos = new Vector3(0, 0, 0);
@@ -118,7 +119,8 @@ public class OnAttack : MonoBehaviour
         if (attackTimer > timeAttack)
         {
             attackTimer = 0;
-            weapon.SetActive(false);
+            Player.instance.weapon.SetActive(false);
+            //weapon.SetActive(false);
             DeactiveTrigger();
             attackState = AttackState.AfterAttack;
         }
@@ -156,7 +158,8 @@ public class OnAttack : MonoBehaviour
         switch (GameDirector.instance.player.attackType)
         {
             case AttackType.Slash:
-                weapon.SetActive(true);
+                //weapon.SetActive(true);
+                Player.instance.weapon.SetActive(true);
                 break;
             case AttackType.Thrust:
                 break;

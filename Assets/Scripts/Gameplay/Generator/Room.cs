@@ -20,21 +20,53 @@ public class Room : MonoBehaviour
     }
 
     public typeRoom type;
+    public AreaType areaType;
     public int numberEnemies;
     public int enemyLeft;
 
     public BoxCollider2D[] doors;
     public Point[] connectedRooms;
+    public GameObject[] paths;
+    public GameObject[] walls;
 
     [ContextMenu("GetDoors")]
     public void GetDoors()
     {
-        doors = transform.Find("EventObject").Find("Doors").GetComponentsInChildren<BoxCollider2D>();
+        if (areaType == AreaType.Room)
+        {
+            doors = transform.Find("EventObject").Find("Doors").GetComponentsInChildren<BoxCollider2D>();
+        }
+        else if (areaType == AreaType.Area)
+        {
+            
+        }
     }
 
-    public void GetPath()
+    /// <summary>
+    /// nhập giá trị các giá trị array xung quanh nó để mở đường đi theo giá trị
+    /// khác 0 sẽ mở. Mặc định 4 hướng: 0: trên, 1: dưới, 2: trái, 3: phải
+    /// </summary>
+    /// <param name="arrays"></param>
+    public void GetPath(int[] arrays)
     {
-
+        if (walls.Length < arrays.Length || paths.Length < arrays.Length)
+        {
+            Debug.LogWarning("Wall or Path length is less than array");
+            return;
+        }
+        for (int i = 0; i < arrays.Length; i++)
+        {
+            if (arrays[i] != 0)
+            {
+                walls[i].SetActive(false);
+                paths[i].SetActive(true);
+            }
+            else
+            {
+                walls[i].SetActive(true);
+                paths[i].SetActive(false);
+            }
+        }
     }
 
     public void InitRoom(int x, int y)

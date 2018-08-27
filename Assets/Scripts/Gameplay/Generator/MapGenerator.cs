@@ -136,7 +136,7 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        Debug.Log("test.................");
+        //Debug.Log("test.................");
     }
 
 

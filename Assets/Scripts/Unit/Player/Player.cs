@@ -27,7 +27,8 @@ public class Player : Unit
     public float maxStamina;
     public float maxVitality;
 
-    public Player instance;
+    public static Player instance;
+    public GameObject weapon;
 
     public enum StaminaRecoverState
     {
