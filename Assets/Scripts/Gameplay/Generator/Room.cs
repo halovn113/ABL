@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Room : MonoBehaviour
@@ -26,8 +27,8 @@ public class Room : MonoBehaviour
 
     public BoxCollider2D[] doors;
     public Point[] connectedRooms;
-    public GameObject[] paths;
-    public GameObject[] walls;
+    public Transform[] paths;
+    public Transform[] walls;
 
     [ContextMenu("GetDoors")]
     public void GetDoors()
@@ -38,7 +39,8 @@ public class Room : MonoBehaviour
         }
         else if (areaType == AreaType.Area)
         {
-            
+            paths = transform.Find("Path").transform.Cast<Transform>().ToList().ToArray();
+            walls = transform.Find("Walls").transform.Cast<Transform>().ToList().ToArray();
         }
     }
 
@@ -54,17 +56,23 @@ public class Room : MonoBehaviour
             Debug.LogWarning("Wall or Path length is less than array");
             return;
         }
+        //string s = "";
+        //for (int i = 0; i < arrays.Length; i++)
+        //{
+        //    s += arrays[i] + " ";
+        //}
+        //Debug.Log(s);
         for (int i = 0; i < arrays.Length; i++)
         {
             if (arrays[i] != 0)
             {
-                walls[i].SetActive(false);
-                paths[i].SetActive(true);
+                walls[i].gameObject.SetActive(false);
+                paths[i].gameObject.SetActive(true);
             }
             else
             {
-                walls[i].SetActive(true);
-                paths[i].SetActive(false);
+                walls[i].gameObject.SetActive(true);
+                paths[i].gameObject.SetActive(false);
             }
         }
     }

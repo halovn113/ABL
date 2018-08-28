@@ -114,7 +114,7 @@ public class Player : Unit
         //_canRecoverStamina = false;
         //this.StopInvoke(0);
         _staminaState = StaminaRecoverState.None;
-        Debug.Log("state " + _staminaState + " " + value + "cur sta " +  currentStamina);
+        //Debug.Log("state " + _staminaState + " " + value + "cur sta " +  currentStamina);
         //GameDirector.instance.UIDirector.uiPlayer.Stamina.UpdateBarFixed(currentStamina);
         //GameDirector.instance.UIDirector.uiPlayer.Stamina.StopUpdate();
         if (currentStamina + value >= maxStamina)

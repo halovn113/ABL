@@ -1660,15 +1660,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
+  areaType: 0
   numberEnemies: 0
   enemyLeft: 0
-  currentRoom: 0
   doors:
   - {fileID: 61736864709400866}
   - {fileID: 61062858587958198}
   - {fileID: 61390237279153996}
   - {fileID: 61581502076726106}
   connectedRooms: []
+  paths: []
+  walls: []
 --- !u!19719996 &2113883506792154718
 TilemapCollider2D:
   m_ObjectHideFlags: 1

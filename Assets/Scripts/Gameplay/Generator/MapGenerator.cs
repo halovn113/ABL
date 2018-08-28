@@ -37,6 +37,10 @@ public class MapGenerator : MonoBehaviour
 		
 	}
 
+    /// <summary>
+    /// spawn player
+    /// </summary>
+    /// <param name="player"></param>
     public void SpawnPlayer(Player player)
     {
         player.transform.position = playerSpawnRoom.transform.position + playerSpawnRoom.transform.Find("EventObject").Find("PlayerSpawn").transform.localPosition;
@@ -53,6 +57,9 @@ public class MapGenerator : MonoBehaviour
         currentRoomPoint = new Point();
     }
 
+    /// <summary>
+    /// tạo map
+    /// </summary>
     [ContextMenu("Create Map")]
     public void CreateMap()
     {
@@ -89,9 +96,6 @@ public class MapGenerator : MonoBehaviour
         {
             return;
         }
-
-        //Debug.Log(w + " " + h);
-        //Debug.Log(Camera.main.pixelWidth + " " + Camera.main.pixelHeight);
         startVec.x = 0 - ((_generate.Width / 2) * w);
         startVec.y = 0 + ((_generate.Height / 2) * h);
         GameObject tempRoom;
@@ -106,10 +110,20 @@ public class MapGenerator : MonoBehaviour
                     if (_generate.arrayData[i, j].data == 1)
                     {
                         tempRoom = Instantiate(listCommonRooms[UnityEngine.Random.Range(0, listCommonRooms.Count)]);
+                        if (tempRoom.GetComponent<Room>().areaType == Room.AreaType.Area)
+                        {
+                            int[] temp = 
+                            {
+                                i - 1 < 0? 0 :_generate.arrayData[i - 1, j].data,
+                                i + 1 > _generate.arrayData.GetLength(0) - 1? 0 : _generate.arrayData[i + 1, j].data,
+                                j - 1 < 0 ? 0 : _generate.arrayData[i, j - 1].data,
+                                j + 1 > _generate.arrayData.GetLength(1) - 1 ? 0 : _generate.arrayData[i, j + 1].data
+                            };
+                            tempRoom.GetComponent<Room>().GetPath(temp);
+                        }              
                     }
                     else
                     {
-                        //tempRoom = Instantiate(listSpecialRooms[_generate.arrayData[i, j].data].room);
                         tempRoom = SpawnSpecialRoom(_generate.arrayData[i, j].data, listSpecialRooms);
                         if (_generate.arrayData[i, j].data == 2)
                         {
@@ -118,7 +132,6 @@ public class MapGenerator : MonoBehaviour
                         }
                     }
                     if (tempRoom == null) continue;
-                    //room = Instantiate(listCommonRooms[UnityEngine.Random.Range(0, listCommonRooms.Count)]);
                     Vector2 pos = new Vector3();
                     pos.x = startVec.x + (w * j);
                     pos.y = startVec.y - (h * i);
@@ -138,7 +151,6 @@ public class MapGenerator : MonoBehaviour
 
         //Debug.Log("test.................");
     }
-
 
     GameObject SpawnSpecialRoom(int id, List<SpecialRoom> listRoom)
     {

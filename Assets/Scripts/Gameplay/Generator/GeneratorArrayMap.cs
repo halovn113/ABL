@@ -52,23 +52,6 @@ public class GeneratorArrayMap : MonoBehaviour
     private int currentNumberRooms;
 
 
-#if UNITY_EDITOR
-    //[CustomEditor(typeof(GeneratorArrayMap))]
-    //public class CreateMapTest : Editor
-    //{
-    //    public override void OnInspectorGUI()
-    //    {
-    //        var script = target as GeneratorArrayMap;
-    //        if ((script.option & Option.HasFocusPoint) != 0)
-    //        {
-    //            script.focusPoint.x = EditorGUILayout.IntSlider("Focus point x: ", script.focusPoint.x, 1, 100);
-    //            script.focusPoint.y = EditorGUILayout.IntSlider("Focus point y: ", script.focusPoint.y, 1, 100);
-
-    //        }
-    //    }
-    //}
-#endif
-
     [ContextMenu("Test show array")]
     public void PrintArray()
     {
@@ -164,12 +147,6 @@ public class GeneratorArrayMap : MonoBehaviour
             }
         }
     }
-
-    //public struct Point
-    //{
-    //    public int x;
-    //    public int y;
-    //}
 
     void CreateArray(RawData[,] arrayData, List<int> ids)
     {

@@ -33,21 +33,14 @@ public class GameDirector : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        //aiTest.GetComponent<Actor>().MoveToTime(player.transform.position, 2);
-        //aiTest.GetComponent<Actor>().MoveTo(player.transform.position, 2);
         DOTween.Init();
         UIDirector.UIInit();
-        player.HealthUpdate(-50);
-        //enemyTest.FollowPlayer();
-        //enemyTest.ChaseAndAttackPlayer();
         MapGenerator.instance.CreateMap();
         MapGenerator.instance.SpawnPlayer(player);
-        //CinematicCam.GetComponent<CinemachineVirtualCamera>().Follow = player.transform;
 
         listRoom = MapGenerator.instance.listRoom;
         UpdateRenderRooms(MapGenerator.instance.currentRoomPoint.x, MapGenerator.instance.currentRoomPoint.y, true);
-        //UpdateCamera(MapGenerator.instance.playerSpawnRoom);
-        //UpdateRenderRoomAround(MapGenerator.instance.currentRoomPoint.x, MapGenerator.instance.currentRoomPoint.y, true);
+
         cam.Init();
         cam.UpdateArea(MapGenerator.instance.playerSpawnRoom.GetComponent<BoxCollider2D>());
     }
